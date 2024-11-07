@@ -152,3 +152,5 @@ data_g.json
 .idea/
 cert.crt
 cert.key
+templates/boxes_t.html
+main.js

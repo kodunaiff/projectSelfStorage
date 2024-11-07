@@ -1,6 +1,7 @@
 from django.db.models import Min
 from django.shortcuts import render
 from .models import Storehouse, StorehouseImage, Box
+from django.http import JsonResponse
 
 def view_products(request):
     storehouses = Storehouse.objects.all()
@@ -14,6 +15,7 @@ def view_products(request):
         min_price_box = boxes.order_by('price').first().price
         store_serialized.append(
             {
+                "id": storehouse.id,
                 "city": storehouse.city,
                 "address": storehouse.address,
                 "description": storehouse.description,
@@ -24,12 +26,20 @@ def view_products(request):
         )
 
 
-
-
-
     #return render(request, template_name="boxes.html", context={'boxes': boxes})
     return render(request, template_name="boxes.html", context={'storehouses': store_serialized})
-    #return render(request, template_name="boxes.html")
 
 
-# Create your views here.
+
+def avaliable_boxes(request, storehous_id):
+    storehouse = Storehouse.objects.get(id=storehous_id)
+    avaliable_boxes = storehouse.boxes.all()
+    boxes_serialized = [
+        {
+            "code": box.box_number,
+            "floor": box.floor,
+        }
+        for box in avaliable_boxes
+    ]
+
+    return JsonResponse({"boxes": boxes_serialized})

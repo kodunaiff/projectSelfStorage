@@ -9,5 +9,6 @@ urlpatterns = [
     #path('boxes/', render, kwargs={'template_name': 'boxes.html'}, name='box_page'),
     path('boxes/', views.view_products, name='box_page'),
     path('faq/', render, kwargs={'template_name': 'faq.html'}, name='faq_page'),
-    path('myrent/', render, kwargs={'template_name': 'my-rent.html'}, name='myrent_page')
+    path('myrent/', render, kwargs={'template_name': 'my-rent.html'}, name='myrent_page'),
+    path("warehouse/<int:warehouse_id>/", views.avaliable_boxes, name="avaliable_boxes")
 ]
